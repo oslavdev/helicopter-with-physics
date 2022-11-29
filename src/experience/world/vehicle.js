@@ -50,6 +50,8 @@ export default class Helicopter {
     this.model.position.y = 1;
     this.scene.add(this.model);
 
+    console.log(this.experience.world)
+
     this.model.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.castShadow = true;
