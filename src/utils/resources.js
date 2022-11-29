@@ -38,9 +38,6 @@ export default class Resources extends EventEmitter
                     source.path,
                     (file) =>
                     {
-                        console.log("Loaded")
-                        console.log(source)
-                        console.log(file)
                         this.sourceLoaded(source, file)
                     }
                 )
