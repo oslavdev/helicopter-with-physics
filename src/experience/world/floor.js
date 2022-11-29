@@ -1,3 +1,4 @@
+import * as CANNON from 'cannon-es'
 import * as THREE from 'three'
 
 import Experience from '../index.js'
@@ -14,6 +15,7 @@ export default class Floor
         this.setTextures()
         this.setMaterial()
         this.setMesh()
+        this.setPhysicalBody()
     }
 
     setGeometry()
@@ -51,5 +53,14 @@ export default class Floor
         this.mesh.rotation.x = - Math.PI * 0.5
         this.mesh.receiveShadow = true
         this.scene.add(this.mesh)
+    }
+
+    setPhysicalBody(){
+        this.shape = new CANNON.Box(new CANNON.Vec3(50, 1, 50))
+        this.body = new CANNON.Body({ mass: 0, material: this.material })
+        this.body.addShape(this.shape)
+        this.body.position.set(0, -1, 0)
+        
+        this.experience.world.world.addBody(this.body)
     }
 }

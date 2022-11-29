@@ -1550,6 +1550,11 @@ caniuse-lite@^1.0.30001400:
   resolved "https://herogaming-425657883712.d.codeartifact.eu-central-1.amazonaws.com:443/npm/frontend/caniuse-lite/-/caniuse-lite-1.0.30001431.tgz#e7c59bd1bc518fae03a4656be442ce6c4887a795"
   integrity sha512-zBUoFU0ZcxpvSt9IU66dXVT/3ctO1cy4y9cscs1szkPlcWb6pasYM144GqrUygUbT+k7cmUCW61cvskjcv0enQ==
 
+cannon-es-debugger@^1.0.0:
+  version "1.0.0"
+  resolved "https://herogaming-425657883712.d.codeartifact.eu-central-1.amazonaws.com:443/npm/frontend/cannon-es-debugger/-/cannon-es-debugger-1.0.0.tgz#28c6679b30dcf608e978225239f447a8fe55ccb4"
+  integrity sha512-sE9lDOBAYFKlh+0w+cvWKwUhJef8HYnUSVPWPL0jD15MAuVRQKno4QYZSGxgOoJkMR3mQqxL4bxys2b3RSWH8g==
+
 cannon-es@^0.20.0:
   version "0.20.0"
   resolved "https://herogaming-425657883712.d.codeartifact.eu-central-1.amazonaws.com:443/npm/frontend/cannon-es/-/cannon-es-0.20.0.tgz#bf2f62a674701f37e3d861c90668a32d4d32f082"
