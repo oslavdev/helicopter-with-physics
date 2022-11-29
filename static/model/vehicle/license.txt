@@ -1,0 +1,11 @@
+Model Information:
+* title:	Helicopter v2
+* source:	https://sketchfab.com/3d-models/helicopter-v2-42927f1c939e4447978b09dd1e22521c
+* author:	Aditya Graphical (https://sketchfab.com/Adityakm)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Helicopter v2" (https://sketchfab.com/3d-models/helicopter-v2-42927f1c939e4447978b09dd1e22521c) by Aditya Graphical (https://sketchfab.com/Adityakm) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
