@@ -5,5 +5,12 @@
       "recommended": true
     },
     "ignore": ["bundler/*.js", "readme/*", "static/*"]
+  },
+  "formatter":{
+    "enabled": true,
+    "rules": {
+      "recommended": true
+    },
+    "ignore": ["bundler/*.js", "readme/*", "static/*"]
   }
 }

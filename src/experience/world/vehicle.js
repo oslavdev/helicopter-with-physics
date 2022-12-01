@@ -199,31 +199,47 @@ export default class Helicopter {
 
 		this.pitching = false;
 		if (this.keyMap["ArrowUp"]) {
-			if (this.thrust.z >= -10.0) {this.thrust.z -= 5 * this.delta};
+			if (this.thrust.z >= -10.0) {
+				this.thrust.z -= 5 * this.delta;
+			}
 			this.pitching = true;
 		}
 		if (this.keyMap["ArrowDown"]) {
-			if (this.thrust.z <= 10.0) {this.thrust.z += 5 * this.delta};
+			if (this.thrust.z <= 10.0) {
+				this.thrust.z += 5 * this.delta;
+			}
 			this.pitching = true;
 		}
 
 		this.banking = false;
 		if (this.keyMap["ArrowLeft"]) {
-			if (this.thrust.x >= -10.0) {this.thrust.x -= 5 * this.delta};
+			if (this.thrust.x >= -10.0) {
+				this.thrust.x -= 5 * this.delta;
+			}
 			this.banking = true;
 		}
 		if (this.keyMap["ArrowRight"]) {
-			if (this.thrust.x <= 10.0) {this.thrust.x += 5 * this.delta};
+			if (this.thrust.x <= 10.0) {
+				this.thrust.x += 5 * this.delta;
+			}
 			this.banking = true;
 		}
 
 		if (!this.pitching) {
-			if (this.thrust.z < 0) {this.thrust.z += 2.5 * this.delta};
-			if (this.thrust.z > 0) {this.thrust.z -= 2.5 * this.delta};
+			if (this.thrust.z < 0) {
+				this.thrust.z += 2.5 * this.delta;
+			}
+			if (this.thrust.z > 0) {
+				this.thrust.z -= 2.5 * this.delta;
+			}
 		}
 		if (!this.banking) {
-			if (this.thrust.x < 0) {this.thrust.x += 2.5 * this.delta};
-			if (this.thrust.x > 0) {this.thrust.x -= 2.5 * this.delta};
+			if (this.thrust.x < 0) {
+				this.thrust.x += 2.5 * this.delta;
+			}
+			if (this.thrust.x > 0) {
+				this.thrust.x -= 2.5 * this.delta;
+			}
 		}
 
 		if (!this.climbing && this.vehicle.position.y > 2) {
