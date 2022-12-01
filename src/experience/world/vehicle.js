@@ -14,7 +14,11 @@ export default class Helicopter {
       w: false,
       s: false,
       a: false,
-      d: false
+      d: false,
+      ArrowUp: false,
+      ArrowDown: false,
+      ArrowLeft: false,
+      ArrowRight: false
     };
 
     // Physical control
@@ -54,16 +58,17 @@ export default class Helicopter {
   }
 
   onDocumentKey = (e) => {
+    console.log(e.key)
     this.keyMap[e.key] = e.type === "keydown";
   };
 
   onCreate() {
-    this.model = this.resource.scene;
-    this.model.scale.set(this.scale, this.scale, this.scale);
-    this.model.position.y = 1;
-    this.scene.add(this.model);
+    this.vehicle = this.resource.scene;
+    this.vehicle.scale.set(this.scale, this.scale, this.scale);
+    this.vehicle.position.y = 1;
+    this.scene.add(this.vehicle);
 
-    this.model.traverse((child) => {
+    this.vehicle.traverse((child) => {
       if (child instanceof THREE.Mesh) {
         child.castShadow = true;
 
@@ -78,19 +83,19 @@ export default class Helicopter {
     });
 
     // Apply physical object to helicopter model
-    this.heliBodyShape = new CANNON.Box(new CANNON.Vec3(0.7, 1, 2));
-    this.heliBody = new CANNON.Body({ mass: 0.5 });
-    this.heliBody.addShape(this.heliBodyShape);
-    this.heliBody.position.x = this.model.position.x;
-    this.heliBody.position.y = this.model.position.y;
-    this.heliBody.position.z = this.model.position.z;
-    this.heliBody.angularDamping = 0.9; //so it doesn't pendulum so much
-    this.world.addBody(this.heliBody);
+    this.vehiclePhysicalBodyShape = new CANNON.Box(new CANNON.Vec3(0.7, 1, 2));
+    this.vehiclePhysicalBody = new CANNON.Body({ mass: 0.5 });
+    this.vehiclePhysicalBody.addShape(this.vehiclePhysicalBodyShape);
+    this.vehiclePhysicalBody.position.x = this.vehicle.position.x;
+    this.vehiclePhysicalBody.position.y = this.vehicle.position.y;
+    this.vehiclePhysicalBody.position.z = this.vehicle.position.z;
+    this.vehiclePhysicalBody.angularDamping = 0.9; //so it doesn't pendulum so much
+    this.world.addBody(this.vehiclePhysicalBody);
 
 
     this.rotorShape = new CANNON.Sphere(0.2);
-    this.rotorBody = new CANNON.Body({ mass: 1 });
-    this.rotorBody.addShape(this.rotorShape);
+    this.rotorPshycialBody = new CANNON.Body({ mass: 1 });
+    this.rotorPshycialBody.addShape(this.rotorShape);
 
     this.rotors["ROTOR"].geometry.computeBoundingBox();
 
@@ -101,19 +106,17 @@ export default class Helicopter {
     this.position.add( this.boundingBox.min );
     this.position.applyMatrix4( this.rotors["ROTOR"].matrixWorld );
 
-    this.rotorBody.position.x = this.position.x;
-    this.rotorBody.position.y = this.position.y;
-    this.rotorBody.position.z = this.position.z;
+    this.rotorPshycialBody.position.x = this.position.x;
+    this.rotorPshycialBody.position.y = this.position.y;
+    this.rotorPshycialBody.position.z = this.position.z;
 
-    console.log(this.position)
-
-    this.rotorBody.linearDamping = 0.5; //simulates auto altitude
-    this.world.addBody(this.rotorBody);
+    this.rotorPshycialBody.linearDamping = 0.5; //simulates auto altitude
+    this.world.addBody(this.rotorPshycialBody);
 
     this.rotorConstraint = new CANNON.PointToPointConstraint(
-      this.heliBody,
+      this.vehiclePhysicalBody,
       new CANNON.Vec3(0, 1, 0),
-      this.rotorBody,
+      this.rotorPshycialBody,
       new CANNON.Vec3()
     );
 
@@ -134,16 +137,16 @@ export default class Helicopter {
 
     this.rotors["ROTOR"].rotateY(this.thrust.y * this.delta * 2);
 
-    this.model.position.set(
-      this.heliBody.position.x,
-      this.heliBody.position.y,
-      this.heliBody.position.z
+    this.vehicle.position.set(
+      this.vehiclePhysicalBody.position.x,
+      this.vehiclePhysicalBody.position.y,
+      this.vehiclePhysicalBody.position.z
     );
-    this.model.quaternion.set(
-      this.heliBody.quaternion.x,
-      this.heliBody.quaternion.y,
-      this.heliBody.quaternion.z,
-      this.heliBody.quaternion.w
+    this.vehicle.quaternion.set(
+      this.vehiclePhysicalBody.quaternion.x,
+      this.vehiclePhysicalBody.quaternion.y,
+      this.vehiclePhysicalBody.quaternion.z,
+      this.vehiclePhysicalBody.quaternion.w
     );
 
 
@@ -170,27 +173,44 @@ export default class Helicopter {
 
     this.yawing = false
     if (this.keyMap['a']) {
-        if (this.rotorBody.angularVelocity.y < 2.0)
-            this.rotorBody.angularVelocity.y += 5 * this.delta
+        if (this.rotorPshycialBody.angularVelocity.y < 2.0)
+            this.rotorPshycialBody.angularVelocity.y += 5 * this.delta
         this.yawing = true
     }
     if (this.keyMap['d']) {
-        if (this.rotorBody.angularVelocity.y > -2.0)
-            this.rotorBody.angularVelocity.y -= 5 * this.delta
+        if (this.rotorPshycialBody.angularVelocity.y > -2.0)
+            this.rotorPshycialBody.angularVelocity.y -= 5 * this.delta
         this.yawing = true
     }
 
     if (!this.yawing) {
-      if (this.rotorBody.angularVelocity.y < 0)
-        this.rotorBody.angularVelocity.y += 1 * this.delta;
-      if (this.rotorBody.angularVelocity.y > 0)
-        this.rotorBody.angularVelocity.y -= 1 * this.delta;
+      if (this.rotorPshycialBody.angularVelocity.y < 0)
+        this.rotorPshycialBody.angularVelocity.y += 1 * this.delta;
+      if (this.rotorPshycialBody.angularVelocity.y > 0)
+        this.rotorPshycialBody.angularVelocity.y -= 1 * this.delta;
     }
 
-    this.heliBody.angularVelocity.y = this.rotorBody.angularVelocity.y;
+    this.vehiclePhysicalBody.angularVelocity.y = this.rotorPshycialBody.angularVelocity.y;
+
+    this.pitching = false
+    if (this.keyMap['ArrowUp']) {
+        if (this.thrust.z >= -10.0) this.thrust.z -= 5 * this.delta
+        this.pitching = true
+    }
+    if (this.keyMap['ArrowDown']) {
+        if (this.thrust.z <= 10.0) this.thrust.z += 5 * this.delta
+        this.pitching = true
+    }
 
     this.banking = false
-    this.pitching = false;
+    if (this.keyMap['ArrowLeft']) {
+        if (this.thrust.x >= -10.0) this.thrust.x -= 5 * this.delta
+        this.banking = true
+    }
+    if (this.keyMap['ArrowRight']) {
+        if (this.thrust.x <= 10.0) this.thrust.x += 5 * this.delta
+        this.banking = true
+    }
 
     if (!this.pitching) {
       if (this.thrust.z < 0) this.thrust.z += 2.5 * this.delta
@@ -201,11 +221,11 @@ export default class Helicopter {
       if (this.thrust.x > 0) this.thrust.x -= 2.5 * this.delta
   }
 
-    if (!this.climbing && this.model.position.y > 2) {
+    if (!this.climbing && this.vehicle.position.y > 2) {
       this.thrust.y = this.stableLift;
     }
 
-    this.rotorBody.applyForce(this.thrust, new CANNON.Vec3());
+    this.rotorPshycialBody.applyForce(this.thrust, new CANNON.Vec3());
   };
 
   destroy() {
