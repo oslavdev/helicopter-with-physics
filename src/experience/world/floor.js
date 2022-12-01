@@ -56,11 +56,17 @@ export default class Floor
     }
 
     setPhysicalBody(){
+
+        this.groundMaterial = new CANNON.Material('groundMaterial')
+        this.groundMaterial.friction = 0.25
+        this.groundMaterial.restitution = 0.25
+
+
         this.shape = new CANNON.Box(new CANNON.Vec3(50, 1, 50))
-        this.body = new CANNON.Body({ mass: 0, material: this.material })
+        this.body = new CANNON.Body({ mass: 0, material: this.groundMaterial })
         this.body.addShape(this.shape)
         this.body.position.set(0, -1, 0)
         
-        this.experience.world.world.addBody(this.body)
+        this.experience.world.addBody(this.body)
     }
 }

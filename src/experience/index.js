@@ -1,3 +1,4 @@
+import * as CANNON from 'cannon-es'
 import * as THREE from 'three'
 
 import Camera from './camera.js'
@@ -6,7 +7,7 @@ import Renderer from './renderer.js'
 import Resources from '../utils/resources.js'
 import Sizes from '../utils/sizes.js'
 import Time from '../utils/time.js'
-import World from './world/world.js'
+import Universe from './world/universe.js'
 import sources from './sources.js'
 
 let instance = null
@@ -31,7 +32,10 @@ export default class Experience {
         this.resources = new Resources(sources)
         this.camera = new Camera()
         this.renderer = new Renderer()
-        this.world = new World()
+        this.universe = new Universe()
+        this.world = new CANNON.World()
+        this.world.gravity.set(0, -9.82, 0)
+        
 
         // Resize event
         this.sizes.on('resize', () =>
@@ -56,7 +60,7 @@ export default class Experience {
     update()
     {
         this.camera.update()
-        this.world.update()
+        this.universe.update()
         this.renderer.update()
     }
 
