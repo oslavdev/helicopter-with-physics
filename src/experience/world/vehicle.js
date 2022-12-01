@@ -41,6 +41,13 @@ export default class Helicopter {
     this.world = this.experience.world;
     this.scale = 0.6;
 
+    // Camera
+    this.chaseCamera = new THREE.Object3D()
+    this.chaseCamPivot = new THREE.Object3D()
+    this.v = new THREE.Vector3()
+    this.v.z = 8
+    this.v.y = 4
+
     // Debug
     if (this.debug.active) {
       this.debugFolder = this.debug.ui.addFolder("helicopter");
@@ -58,7 +65,6 @@ export default class Helicopter {
   }
 
   onDocumentKey = (e) => {
-    console.log(e.key)
     this.keyMap[e.key] = e.type === "keydown";
   };
 
@@ -122,6 +128,13 @@ export default class Helicopter {
 
     this.rotorConstraint.collideConnected = false;
     this.world.addConstraint(this.rotorConstraint);
+
+    this.chaseCamera.position.set(0, 0, 0)
+    this.chaseCamPivot.position.set(0, 2, 4)
+    this.chaseCamera.add(this.chaseCamPivot)
+    this.scene.add(this.chaseCamera)
+
+    this.vehicle.add(this.chaseCamera)
 
     document.addEventListener("keydown", this.onDocumentKey, false);
     document.addEventListener("keyup", this.onDocumentKey, false);
@@ -226,6 +239,19 @@ export default class Helicopter {
     }
 
     this.rotorPshycialBody.applyForce(this.thrust, new CANNON.Vec3());
+
+    this.experience.camera.instance.lookAt(this.vehicle.position)
+
+    this.chaseCamPivot.getWorldPosition(this.v)
+    if (this.v.y < 3 || this.v.y > 5) {
+        this.v.y = 3
+    }
+
+    if(this.v.z < 6 || this.v.z > 8){
+      this.v.z = 6
+    }
+
+    this.experience.camera.instance.position.lerpVectors(this.experience.camera.instance.position, this.v, 0.05)
   };
 
   destroy() {
