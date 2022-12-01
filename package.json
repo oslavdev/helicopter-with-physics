@@ -1,11 +1,12 @@
 {
   "repository": "#",
-  "name": "drone-pysics",
+  "name": "helicopter-physics",
   "license": "UNLICENSED",
+  "author":"Jaroslaw",
   "scripts": {
     "build": "webpack --config ./bundler/webpack.prod.js",
     "dev": "webpack serve --config ./bundler/webpack.dev.js",
-    "rome:check":"yarn rome check",
+    "rome:check":"yarn rome check .",
     "rome:format":"yarn rome format . --write"
   },
   "dependencies": {
