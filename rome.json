@@ -4,13 +4,10 @@
     "rules": {
       "recommended": true
     },
-    "ignore": ["bundler/*.js", "readme/*", "static/*"]
+    "ignore": ["bundler/*.js", "readme/*", "static/*.js"]
   },
   "formatter":{
     "enabled": true,
-    "rules": {
-      "recommended": true
-    },
-    "ignore": ["bundler/*.js", "readme/*", "static/*"]
+    "ignore": ["bundler/*.js", "readme/*", "static/*.js"]
   }
 }
