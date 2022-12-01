@@ -11,6 +11,6 @@
     "indentStyle": "tab",
     "indentSize": 2,
     "lineWidth": 80,
-    "ignore": ["bundler/*.js", "readme/*", "static/*/**"]
+    "ignore": ["bundler/*.js", "readme/*", "static/*.js"]
   }
 }
