@@ -7,7 +7,10 @@
     "ignore": ["bundler/*.js", "readme/*", "static/*.js"]
   },
   "formatter":{
-    "enabled": true,
-    "ignore": ["bundler/*.js", "readme/*", "static/*.js"]
+    "formatWithErrors": false,
+    "indentStyle": "tab",
+    "indentSize": 2,
+    "lineWidth": 80,
+    "ignore": ["bundler/*.js", "readme/*", "static/*/**"]
   }
 }
