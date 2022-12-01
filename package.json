@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "husky": "^8.0.2",
-    "rome": "^10.0.1"
+    "rome": "^10.0.1",
+    "semantic-release": "^19.0.5"
   }
 }

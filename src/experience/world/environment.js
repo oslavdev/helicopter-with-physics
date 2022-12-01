@@ -80,6 +80,7 @@ export default class Environment {
 			});
 		};
 		this.environmentMap.updateMaterials();
+		
 
 		// Debug
 		if (this.debug.active) {
