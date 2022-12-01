@@ -2,12 +2,13 @@
   "repository": "#",
   "name": "helicopter-physics",
   "license": "UNLICENSED",
-  "author":"Jaroslaw",
+  "author": "Jaroslaw",
   "scripts": {
     "build": "webpack --config ./bundler/webpack.prod.js",
     "dev": "webpack serve --config ./bundler/webpack.dev.js",
-    "rome:check":"yarn rome check .",
-    "rome:format":"yarn rome format . --write"
+    "rome:check": "yarn rome check .",
+    "rome:format": "yarn rome format . --write",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@babel/core": "^7.17.10",
@@ -34,6 +35,7 @@
     "webpack-merge": "^5.8.0"
   },
   "devDependencies": {
+    "husky": "^8.0.2",
     "rome": "^10.0.1"
   }
 }
