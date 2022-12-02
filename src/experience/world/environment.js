@@ -77,12 +77,12 @@ export default class Environment {
 				}
 			});
 		};
-		
+
 		this.environmentMap.updateMaterials();
-		this.environmentMap.encoding = THREE.sRGBEncoding
+		this.environmentMap.encoding = THREE.sRGBEncoding;
 
 		// this.scene.background = this.environmentMap.texture
-		this.scene.environment = this.environmentMap.texture
+		this.scene.environment = this.environmentMap.texture;
 
 		// Debug
 		if (this.debug.active) {

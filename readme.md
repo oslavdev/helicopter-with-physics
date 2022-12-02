@@ -2,6 +2,13 @@
 
 Developed with Three.js and Cannon.js.
 
+## Preview
+
+<div style="width:350px">
+
+![Preview](readme/helicopter.png?raw=true 'Cover')
+</div>
+
 ## Setup
 
 ``` bash
