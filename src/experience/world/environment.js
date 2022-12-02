@@ -65,8 +65,6 @@ export default class Environment {
 		this.environmentMap.texture = this.resources.items.environmentMapTexture;
 		this.environmentMap.texture.encoding = THREE.sRGBEncoding;
 
-		this.scene.environment = this.environmentMap.texture;
-
 		this.environmentMap.updateMaterials = () => {
 			this.scene.traverse((child) => {
 				if (
@@ -79,8 +77,12 @@ export default class Environment {
 				}
 			});
 		};
-		this.environmentMap.updateMaterials();
 		
+		this.environmentMap.updateMaterials();
+		this.environmentMap.encoding = THREE.sRGBEncoding
+
+		// this.scene.background = this.environmentMap.texture
+		this.scene.environment = this.environmentMap.texture
 
 		// Debug
 		if (this.debug.active) {

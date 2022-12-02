@@ -23,7 +23,7 @@ export default class Helicopter {
 
 		// Physical control
 		this.delta = 1;
-		this.thrust = new CANNON.Vec3(0, 0, 0);
+		this.thrust = new CANNON.Vec3(0, 5, 0);
 		this.stableLift = 14.7;
 		this.clock = new THREE.Clock();
 		this.climbing = false;
@@ -45,8 +45,10 @@ export default class Helicopter {
 		this.chaseCamera = new THREE.Object3D();
 		this.chaseCamPivot = new THREE.Object3D();
 		this.v = new THREE.Vector3();
-		this.v.z = 8;
-		this.v.y = 4;
+
+    this.cameraVector = new THREE.Vector3();
+		// this.v.z = 6;
+		// this.v.y = 4;
 
 		// Debug
 		if (this.debug.active) {
@@ -137,6 +139,8 @@ export default class Helicopter {
 
 	update = () => {
 		this.delta = Math.min(this.clock.getDelta(), 0.1);
+    this.cameraDirection = this.experience.camera.instance.getWorldDirection(this.cameraVector);
+    
 
 		if (this.delta > 0) {
 			this.world.step(this.delta);
@@ -246,23 +250,22 @@ export default class Helicopter {
 			this.thrust.y = this.stableLift;
 		}
 
-		this.rotorPshycialBody.applyForce(this.thrust, new CANNON.Vec3());
+
+    
+		this.rotorPshycialBody.applyForce( this.thrust, new CANNON.Vec3());
 
 		this.experience.camera.instance.lookAt(this.vehicle.position);
 
 		this.chaseCamPivot.getWorldPosition(this.v);
-		if (this.v.y < 3 || this.v.y > 5) {
-			this.v.y = 3;
-		}
-
-		if (this.v.z < 6 || this.v.z > 8) {
-			this.v.z = 6;
-		}
+    
+    if (this.v.y < 1) {
+      this.v.y = 1
+  }
 
 		this.experience.camera.instance.position.lerpVectors(
 			this.experience.camera.instance.position,
 			this.v,
-			0.05,
+			0.1,
 		);
 	};
 
