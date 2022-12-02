@@ -251,7 +251,7 @@ export default class Helicopter {
 			this.thrust.y = this.stableLift;
 		}
 
-		this.rotorPshycialBody.applyForce(this.thrust, new CANNON.Vec3());
+		this.rotorPshycialBody.applyLocalForce(this.thrust, new CANNON.Vec3());
 
 		this.experience.camera.instance.lookAt(this.vehicle.position);
 
@@ -261,8 +261,6 @@ export default class Helicopter {
 			this.v.y = 3;
 			this.v.z = 6;
 		}
-
-
 
 		this.experience.camera.instance.position.lerpVectors(
 			this.experience.camera.instance.position,
