@@ -8,7 +8,8 @@ export default class Universe {
 		this.experience = new Experience();
 		this.scene = this.experience.scene;
 		this.resources = this.experience.resources;
-
+		this.environment = null;
+		
 		// Wait for resources
 		this.resources.on("ready", () => {
 			// Setup
@@ -20,5 +21,6 @@ export default class Universe {
 
 	update() {
 		if (this.vehicle) this.vehicle.update();
+		if (this.environment) this.environment.update()
 	}
 }
