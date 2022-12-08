@@ -1,8 +1,8 @@
 import * as THREE from "three";
 
 import Experience from "../index.js";
-import { Sky } from 'three/examples/jsm/objects/Sky.js';
-import { Water } from 'three/examples/jsm/objects/Water.js';
+import { Sky } from "three/examples/jsm/objects/Sky.js";
+import { Water } from "three/examples/jsm/objects/Water.js";
 
 export default class Environment {
 	constructor() {
@@ -13,9 +13,9 @@ export default class Environment {
 		this.sun = new THREE.Vector3();
 		this.parameters = {
 			elevation: 2,
-			azimuth: 180
+			azimuth: 180,
 		};
-		
+
 		// Debug
 		if (this.debug.active) {
 			this.debugFolder = this.debug.ui.addFolder("environment");
@@ -28,68 +28,71 @@ export default class Environment {
 		this.updateSun();
 	}
 
-	setWater(){
-		this.waterGeometry = new THREE.PlaneGeometry( 10000, 10000 );
-		this.water = new Water(
-			this.waterGeometry,
-			{
+	setWater() {
+		this.waterGeometry = new THREE.PlaneGeometry(10000, 10000);
+		this.water = new Water(this.waterGeometry, {
 			textureWidth: 512,
 			textureHeight: 512,
-			waterNormals: new THREE.TextureLoader().load( 'textures/waternormals.jpeg', function ( texture ) {
-
-				texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-
-			} ),
+			waterNormals: new THREE.TextureLoader().load(
+				"textures/waternormals.jpeg",
+				function (texture) {
+					texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+				},
+			),
 			sunDirection: new THREE.Vector3(),
 			sunColor: 0xffffff,
 			waterColor: 0x001e0f,
 			distortionScale: 3.7,
-			fog: this.scene.fog !== undefined
-			}
-		);
+			fog: this.scene.fog !== undefined,
+		});
 
-		this.water.rotation.x = - Math.PI / 2;
+		this.water.rotation.x = -Math.PI / 2;
 		this.water.position.y = -0.09;
 
-
-		this.scene.add( this.water );
+		this.scene.add(this.water);
 	}
 
-	setSky(){
+	setSky() {
 		this.sky = new Sky();
-		this.sky.scale.setScalar( 10000 );
+		this.sky.scale.setScalar(10000);
 		this.scene.add(this.sky);
 
 		this.skyUniforms = this.sky.material.uniforms;
 
-		this.skyUniforms[ 'turbidity' ].value = 10;
-		this.skyUniforms[ 'rayleigh' ].value = 2;
-		this.skyUniforms[ 'mieCoefficient' ].value = 0.005;
-		this.skyUniforms[ 'mieDirectionalG' ].value = 0.8;
+		this.skyUniforms["turbidity"].value = 10;
+		this.skyUniforms["rayleigh"].value = 2;
+		this.skyUniforms["mieCoefficient"].value = 0.005;
+		this.skyUniforms["mieDirectionalG"].value = 0.8;
 
-		this.pmremGenerator = new THREE.PMREMGenerator( this.experience.renderer.instance );
+		this.pmremGenerator = new THREE.PMREMGenerator(
+			this.experience.renderer.instance,
+		);
 
-		this.phi = THREE.MathUtils.degToRad( 90 - this.parameters.elevation );
-		this.theta = THREE.MathUtils.degToRad( this.parameters.azimuth );
+		this.phi = THREE.MathUtils.degToRad(90 - this.parameters.elevation);
+		this.theta = THREE.MathUtils.degToRad(this.parameters.azimuth);
 
-		this.sun.setFromSphericalCoords( 1, this.phi, this.theta );
+		this.sun.setFromSphericalCoords(1, this.phi, this.theta);
 
-		this.sky.material.uniforms[ 'sunPosition' ].value.copy( this.sun );
-		this.water.material.uniforms[ 'sunDirection' ].value.copy( this.sun ).normalize();
+		this.sky.material.uniforms["sunPosition"].value.copy(this.sun);
+		this.water.material.uniforms["sunDirection"].value
+			.copy(this.sun)
+			.normalize();
 
-		this.scene.environment = this.pmremGenerator.fromScene( this.sky ).texture;
+		this.scene.environment = this.pmremGenerator.fromScene(this.sky).texture;
 	}
 
-	updateSun(){
-		this.phi = THREE.MathUtils.degToRad( 90 - this.parameters.elevation );
-		this.theta = THREE.MathUtils.degToRad( this.parameters.azimuth );
-	
-		this.sun.setFromSphericalCoords( 1, this.phi, this.theta );
-	
-		this.sky.material.uniforms[ 'sunPosition' ].value.copy( this.sun );
-		this.water.material.uniforms[ 'sunDirection' ].value.copy( this.sun ).normalize();
-	
-		this.scene.environment = this.pmremGenerator.fromScene( this.sky ).texture;
+	updateSun() {
+		this.phi = THREE.MathUtils.degToRad(90 - this.parameters.elevation);
+		this.theta = THREE.MathUtils.degToRad(this.parameters.azimuth);
+
+		this.sun.setFromSphericalCoords(1, this.phi, this.theta);
+
+		this.sky.material.uniforms["sunPosition"].value.copy(this.sun);
+		this.water.material.uniforms["sunDirection"].value
+			.copy(this.sun)
+			.normalize();
+
+		this.scene.environment = this.pmremGenerator.fromScene(this.sky).texture;
 	}
 
 	setSunLight() {
@@ -168,7 +171,7 @@ export default class Environment {
 	}
 
 	update() {
-		this.water.material.uniforms[ 'time' ].value += 1.0 / 60.0;
-		this.updateSun()
+		this.water.material.uniforms["time"].value += 1.0 / 60.0;
+		this.updateSun();
 	}
 }

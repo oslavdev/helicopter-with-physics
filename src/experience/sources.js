@@ -32,13 +32,13 @@ export default [
 		path: "models/vehicle/scene.gltf",
 	},
 	{
-		name: 'oilPlatformModel',
-		type:"gltfModel",
-		path:"models/platform/scene.gltf"
+		name: "oilPlatformModel",
+		type: "gltfModel",
+		path: "models/platform/scene.gltf",
 	},
 	{
-		name: 'cargoModel',
-		type:"gltfModel",
-		path:"models/cargo/scene.gltf"
-	}
+		name: "cargoModel",
+		type: "gltfModel",
+		path: "models/cargo/scene.gltf",
+	},
 ];

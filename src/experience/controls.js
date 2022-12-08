@@ -1,6 +1,6 @@
-export default class Controls{
-    constructor(){
-        this.keyMap = {
+export default class Controls {
+	constructor() {
+		this.keyMap = {
 			w: false,
 			s: false,
 			a: false,
@@ -9,21 +9,21 @@ export default class Controls{
 			ArrowDown: false,
 			ArrowLeft: false,
 			ArrowRight: false,
-			g: false
+			g: false,
 		};
-    }
+	}
 
-    onDocumentKey = (e) => {
+	onDocumentKey = (e) => {
 		this.keyMap[e.key] = e.type === "keydown";
 	};
 
-    onStart(){
-        document.addEventListener("keydown", this.onDocumentKey, false);
+	onStart() {
+		document.addEventListener("keydown", this.onDocumentKey, false);
 		document.addEventListener("keyup", this.onDocumentKey, false);
-    }
+	}
 
-    onStop(){
-        document.removeEventListener("keydown", this.onDocumentKey, false);
+	onStop() {
+		document.removeEventListener("keydown", this.onDocumentKey, false);
 		document.removeEventListener("keyup", this.onDocumentKey, false);
-    }
+	}
 }
