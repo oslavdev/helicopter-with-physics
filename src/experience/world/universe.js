@@ -1,6 +1,7 @@
 import Environment from "./environment.js";
 import Experience from "../index.js";
 import Floor from "./floor.js";
+import Platform from "./platform.js";
 import Vehicle from "./vehicle.js";
 
 export default class Universe {
@@ -12,10 +13,11 @@ export default class Universe {
 		
 		// Wait for resources
 		this.resources.on("ready", () => {
-			// Setup
 			this.floor = new Floor();
-			this.vehicle = new Vehicle();
 			this.environment = new Environment();
+			this.platform = new Platform();
+
+			this.vehicle = new Vehicle();
 		});
 	}
 

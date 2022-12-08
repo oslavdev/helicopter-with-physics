@@ -24,6 +24,21 @@ export default [
 	{
 		name: "helicopterModel",
 		type: "gltfModel",
-		path: "model/vehicle/scene.gltf",
+		path: "models/vehicle/scene.gltf",
 	},
+	{
+		name: "helicopterModel",
+		type: "gltfModel",
+		path: "models/vehicle/scene.gltf",
+	},
+	{
+		name: 'oilPlatformModel',
+		type:"gltfModel",
+		path:"models/platform/scene.gltf"
+	},
+	{
+		name: 'cargoModel',
+		type:"gltfModel",
+		path:"models/cargo/scene.gltf"
+	}
 ];

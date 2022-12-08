@@ -3,6 +3,7 @@ import * as THREE from "three";
 
 import Experience from "../index.js";
 
+//TODO: use platform physical body instead
 export default class Floor {
 	constructor() {
 		this.experience = new Experience();
@@ -10,9 +11,9 @@ export default class Floor {
 		this.resources = this.experience.resources;
 
 		this.setGeometry();
-		this.setTextures();
-		this.setMaterial();
-		this.setMesh();
+		// this.setTextures();
+		// this.setMaterial();
+		// this.setMesh();
 		this.setPhysicalBody();
 	}
 
@@ -54,10 +55,12 @@ export default class Floor {
 		this.groundMaterial.friction = 0.25;
 		this.groundMaterial.restitution = 0.25;
 
-		this.shape = new CANNON.Box(new CANNON.Vec3(50, 1, 50));
+		this.shape = new CANNON.Box(new CANNON.Vec3(8, 1, 8));
 		this.body = new CANNON.Body({ mass: 0, material: this.groundMaterial });
 		this.body.addShape(this.shape);
-		this.body.position.set(0, -1, 0);
+
+		//TODO: Get actual model position
+		this.body.position.set(-48, 63, 0);
 
 		this.experience.world.addBody(this.body);
 	}
