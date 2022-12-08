@@ -30,6 +30,7 @@ pnpm run build
 | S           | Down       |
 | A           | Turn Left  |
 | D           | Turn Right |
+| G           | Start Engn |
 | Arrow Up    | Forward    |
 | Arrow Down  | Backward   |
 | Arrow Left  | Tilt left  |
