@@ -35,6 +35,15 @@ jobs:
         with:
           version: 6.0.2
 
+      - name: Restore Node modules from caches
+        uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: v202101131145-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Install dependencies
+          run: pnpm install 
+
       - name: Publish release
         env:
           GIT_AUTHOR_NAME: ${{ github.event.pusher.name }}
