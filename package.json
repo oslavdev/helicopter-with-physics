@@ -6,9 +6,8 @@
   "scripts": {
     "build": "webpack --config ./bundler/webpack.prod.js",
     "dev": "webpack serve --config ./bundler/webpack.dev.js",
-    "rome:check": "yarn rome check .",
-    "rome:format": "yarn rome format . --write",
-    "prepare": "husky install"
+    "rome:check": "pnpm rome check .",
+    "rome:format": "pnpm rome format . --write"
   },
   "dependencies": {
     "@babel/core": "^7.17.10",
@@ -37,7 +36,14 @@
   },
   "devDependencies": {
     "husky": "^8.0.2",
+    "lint-staged": "^13.1.0",
     "rome": "^10.0.1",
     "semantic-release": "^19.0.5"
+  },
+  "lint-staged": {
+    "*.js": [
+      "rome:format",
+      "git add"
+    ]
   }
 }
