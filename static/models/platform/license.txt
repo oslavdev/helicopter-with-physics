@@ -1,0 +1,11 @@
+Model Information:
+* title:	Oil Platform Troll A
+* source:	https://sketchfab.com/3d-models/oil-platform-troll-a-6b0c42c58598434986d59073ff360429
+* author:	Arkikon (https://sketchfab.com/ragnar)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Oil Platform Troll A" (https://sketchfab.com/3d-models/oil-platform-troll-a-6b0c42c58598434986d59073ff360429) by Arkikon (https://sketchfab.com/ragnar) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
