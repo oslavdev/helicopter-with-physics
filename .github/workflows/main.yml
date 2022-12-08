@@ -35,7 +35,7 @@ jobs:
         with:
           version: 6.0.2
 
-      - name: Publish package
+      - name: Publish release
         env:
           GIT_AUTHOR_NAME: ${{ github.event.pusher.name }}
           GIT_AUTHOR_EMAIL: ${{ github.event.pusher.email }}
@@ -43,4 +43,4 @@ jobs:
           GIT_COMMITTER_EMAIL: ${{ github.event.pusher.email }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          pnpm semantic-release
+          pnpm run semantic-release
