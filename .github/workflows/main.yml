@@ -13,24 +13,12 @@ jobs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v1
+      - uses: rome/setup-rome@v0.4
         with:
-          node-version: "16"
+          version: 0.10.0
 
-      - name: Restore Node modules from caches
-        uses: actions/cache@v2
-        with:
-          path: "**/node_modules"
-          key: v202101131145-${{ hashFiles('yarn.lock') }}
-
-      - name: Run install
-        run: pnpm install
-
-      - name: Run Rome linter
-        run: pnpm rome:check
-        continue-on-error: true
+      - uses: actions/checkout@v2
+      - run: rome check .
 
   publish:
     if: github.event_name == 'push'
