@@ -42,7 +42,7 @@
   },
   "lint-staged": {
     "*.js": [
-      "rome:format",
+      "pnpm run rome:format",
       "git add"
     ]
   }
