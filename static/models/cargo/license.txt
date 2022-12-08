@@ -1,0 +1,11 @@
+Model Information:
+* title:	Cargo Crate
+* source:	https://sketchfab.com/3d-models/cargo-crate-19a32159a3d6443e95105f4f7cb51c39
+* author:	boysichterman (https://sketchfab.com/boysichterman)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Cargo Crate" (https://sketchfab.com/3d-models/cargo-crate-19a32159a3d6443e95105f4f7cb51c39) by boysichterman (https://sketchfab.com/boysichterman) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
