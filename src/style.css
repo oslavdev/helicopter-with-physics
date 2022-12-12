@@ -1,3 +1,9 @@
+
+:root {
+    --main-bg-color: #8bc2d9;
+    --main-text-hover: #63e395;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -20,4 +26,161 @@ canvas {
     top: 0;
     left: 0;
     outline: none;
+}
+
+.hidden {
+    display: none!important;
+}
+
+.main {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background:
+        radial-gradient(black 15%, transparent 16%) 0 0,
+        radial-gradient(black 15%, transparent 16%) 8px 8px,
+        radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 0 1px,
+        radial-gradient(rgba(255,255,255,.1) 15%, transparent 20%) 8px 9px;
+    background-color:#282828;
+    background-size:16px 16px;
+}
+
+.container {
+    max-width: 1200px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.container h1 {
+    font-weight: bold;
+    font-family: cursive;
+    font-size: 32px;
+    color: white;
+    pointer-events: none;
+}
+
+.list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    margin-top: 20px;
+}
+
+.list-element {
+    list-style: none;
+    margin-top: 5px;
+}
+
+.list-element__button {
+    transition: .4s;
+    cursor: pointer;
+    color: white;
+    font-size: 17px;
+    
+}
+
+.list-element__button:hover {
+    color: var(--main-text-hover);
+}
+
+.list-element__button--inactive {
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+.loading-bar
+{
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background: #66d8b6;
+    transform: scaleX(0.3);
+    transform-origin: top left;
+    transition: transform 0.5s;
+    z-index: 9999;
+}
+
+.loading-bar.ended
+{
+    transform: scaleX(0);
+    transform-origin: 100% 0;
+    transition: transform 1.5s ease-in-out;
+    display: none;
+}
+
+
+.ui-container {
+    display: block;
+    z-index: 9999999999;
+}
+
+.github-corner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    width: 150px;
+    z-index: 9999999999;
+}
+
+.github-corner a {
+    color: #000000;
+    cursor: pointer;
+}
+
+
+.controls-corner {
+    color: white;
+    font-size: 14px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 5px;
+    z-index: 999;
+    pointer-events: none;
+}
+
+
+.controls-corner h3 {
+    text-shadow:1px 1px 1px #000, 0px 1px 3px #000;
+    font-size: 17px;
+    text-shadow:#282828;
+    color: white;
+    margin-bottom: 15px;
+}
+.control-row {
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: row;
+}
+
+.control-el {
+    font-weight: bold;
+    display: inline-block;
+    font-family: 'serif';
+    padding: 2px 5px;
+    margin-right: 2px;
+    min-width: 10px;
+    text-align: center;
+    margin-left: 2px;
+    background: #eff0f2;
+    color: #111;
+    border-radius: 2px;
+    font-size: 14px;
+}
+
+.control-des {
+    text-shadow:1px 1px 1px #000, 0px 1px 3px #000;
+    font-size: 14px;
+    margin-left: 5px;
 }

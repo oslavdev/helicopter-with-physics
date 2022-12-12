@@ -3,12 +3,12 @@ import * as THREE from "three";
 
 import Camera from "./camera.js";
 import Debug from "../utils/debug.js";
+import { OIL_PLATFORM } from "./sources.js";
 import Renderer from "./renderer.js";
 import Resources from "../utils/resources.js";
 import Sizes from "../utils/sizes.js";
 import Time from "../utils/time.js";
 import Universe from "./world/universe.js";
-import sources from "./sources.js";
 
 let instance = null;
 
@@ -21,16 +21,17 @@ export default class Experience {
 		instance = this;
 		window.experience = this;
 
+		this.resources = new Resources(OIL_PLATFORM);
+		this.universe = new Universe();
 		this.canvas = _canvas;
-
+		this.ready = false;
 		this.debug = new Debug();
 		this.sizes = new Sizes();
 		this.time = new Time();
 		this.scene = new THREE.Scene();
-		this.resources = new Resources(sources);
 		this.camera = new Camera();
 		this.renderer = new Renderer();
-		this.universe = new Universe();
+
 		this.world = new CANNON.World();
 		this.world.gravity.set(0, -9.82, 0);
 

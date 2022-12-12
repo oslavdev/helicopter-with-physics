@@ -1,5 +1,18 @@
 import "./style.css";
 
-import Experience from "./experience";
+import LevelManager from "./experience/level-manager";
+import { domSwitch } from "./utils/dom-switch";
 
-const experience = new Experience(document.querySelector("canvas.webgl"));
+function onFreestyle() {
+	domSwitch(["loading-bar", "main", "webgl"]);
+	const levelManager = new LevelManager();
+	levelManager.onCreateLevel("FREESTYLE", "OIL_PLATFORM");
+}
+
+function onStart() {
+	document
+		.getElementById("freestyle-run")
+		.addEventListener("click", onFreestyle);
+}
+
+onStart();
