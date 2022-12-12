@@ -6,6 +6,24 @@
     <title>Helicopter Controle with physics</title>
 </head>
 <body>
-    <canvas class="webgl"></canvas>
+    <main id="main" class="main">
+        <div class="container">
+            <h1>H-Cargo</h1>
+            <nav>
+                <ul class='list'>
+                    <li class='list-element'>
+                       <div id='freestyle-run' class='list-element__button'>Freestyle</div>
+                    </li>
+                    <li class='list-element'>
+                        <div id='single-run' class='list-element__button list-element__button--inactive'>Single player</div>
+                     </li>
+                     <li class='list-element'>
+                        <div id='multy-run' class='list-element__button list-element__button--inactive'>Multiplayer</div>
+                     </li>
+                </ul>
+            </nav>
+        </div>
+    </main>
+    <canvas id='webgl' class="webgl hidden"></canvas>
 </body>
 </html>

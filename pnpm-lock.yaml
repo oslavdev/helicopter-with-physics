@@ -11,6 +11,7 @@ specifiers:
   css-loader: ^6.7.1
   dat.gui: ^0.7.9
   file-loader: ^6.2.0
+  gsap: ^3.11.3
   html-loader: ^3.1.0
   html-webpack-plugin: ^5.5.0
   husky: ^8.0.2
@@ -40,6 +41,7 @@ dependencies:
   css-loader: 6.7.2_webpack@5.75.0
   dat.gui: 0.7.9
   file-loader: 6.2.0_webpack@5.75.0
+  gsap: 3.11.3
   html-loader: 3.1.2_webpack@5.75.0
   html-webpack-plugin: 5.5.0_webpack@5.75.0
   lil-gui: 0.17.0
@@ -3256,6 +3258,10 @@ packages:
 
   /graceful-fs/4.2.10:
     resolution: {integrity: sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==}
+
+  /gsap/3.11.3:
+    resolution: {integrity: sha512-xc/iIJy+LWiMbRa4IdMtdnnKa/7PXEK6NNzV71gdOYUVeTZN7UWnLU0fB7Hi1iwiz4ZZoYkBZPPYGg+2+zzFHA==}
+    dev: false
 
   /handle-thing/2.0.1:
     resolution: {integrity: sha512-9Qn4yBxelxoh2Ow62nP+Ka/kMnOXRi8BXnRaUwezLNhqelnN49xKz4F/dPP8OYLxLxq6JDtZb2i9XznUQbNPTg==}
