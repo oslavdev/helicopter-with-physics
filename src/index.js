@@ -1,6 +1,5 @@
 import "./style.css";
 
-import Experience from "./experience";
 import LevelManager from "./experience/level-manager";
 import { domSwitch } from "./utils/dom-switch";
 

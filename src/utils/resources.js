@@ -11,6 +11,7 @@ const loadingManager = new THREE.LoadingManager(
 
 		loadingBarElement.classList.add("ended");
 		loadingBarElement.style.transform = "";
+		document.getElementById("ui").classList.remove("hidden");
 	},
 
 	// Progress

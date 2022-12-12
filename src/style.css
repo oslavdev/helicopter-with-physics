@@ -117,3 +117,70 @@ canvas {
     transition: transform 1.5s ease-in-out;
     display: none;
 }
+
+
+.ui-container {
+    display: block;
+    z-index: 9999999999;
+}
+
+.github-corner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    width: 150px;
+    z-index: 9999999999;
+}
+
+.github-corner a {
+    color: #000000;
+    cursor: pointer;
+}
+
+
+.controls-corner {
+    color: white;
+    font-size: 14px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 5px;
+    z-index: 999;
+    pointer-events: none;
+}
+
+
+.controls-corner h3 {
+    text-shadow:1px 1px 1px #000, 0px 1px 3px #000;
+    font-size: 17px;
+    text-shadow:#282828;
+    color: white;
+    margin-bottom: 15px;
+}
+.control-row {
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: row;
+}
+
+.control-el {
+    font-weight: bold;
+    display: inline-block;
+    font-family: 'serif';
+    padding: 2px 5px;
+    margin-right: 2px;
+    min-width: 10px;
+    text-align: center;
+    margin-left: 2px;
+    background: #eff0f2;
+    color: #111;
+    border-radius: 2px;
+    font-size: 14px;
+}
+
+.control-des {
+    text-shadow:1px 1px 1px #000, 0px 1px 3px #000;
+    font-size: 14px;
+    margin-left: 5px;
+}
