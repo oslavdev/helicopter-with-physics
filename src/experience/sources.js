@@ -1,4 +1,4 @@
-export default [
+export const OIL_PLATFORM = [
 	{
 		name: "environmentMapTexture",
 		type: "cubeTexture",
@@ -42,3 +42,5 @@ export default [
 		path: "models/cargo/scene.gltf",
 	},
 ];
+
+export const SNOW_FOREST = [];
