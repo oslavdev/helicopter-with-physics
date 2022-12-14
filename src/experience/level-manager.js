@@ -15,6 +15,7 @@ export default class LevelManager {
 	constructor() {
 		this.map = "";
 		this.mode = "";
+		this.score = 0;
 	}
 
 	onCreateLevel(mode, map) {
