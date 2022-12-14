@@ -1,3 +1,4 @@
+import Cargo from "./cargo.js";
 import Environment from "./environment.js";
 import Experience from "../index.js";
 import Floor from "./floor.js";
@@ -18,11 +19,13 @@ export default class Universe {
 			this.platform = new Platform();
 
 			this.vehicle = new Vehicle();
+			this.cargo = new Cargo();
 		});
 	}
 
 	update() {
 		if (this.vehicle) this.vehicle.update();
 		if (this.environment) this.environment.update();
+		if (this.cargo) this.cargo.update();
 	}
 }
