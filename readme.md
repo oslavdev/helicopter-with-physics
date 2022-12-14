@@ -1,4 +1,4 @@
-# Flying Helicopter control with physics
+# Flying Helicopter with physics
 
 Developed with Three.js and Cannon.js.
 
@@ -22,19 +22,23 @@ pnpm run dev
 pnpm run build
 ```
 
+To run with debugger, add #debug in address line: http://localhost:3000#debug
+
 ## Controls
 
-| Button      | Action     |
-| ----------- | -----------|
-| W           | Up         |
-| S           | Down       |
-| A           | Turn Left  |
-| D           | Turn Right |
-| G           | Start Engn |
-| Arrow Up    | Forward    |
-| Arrow Down  | Backward   |
-| Arrow Left  | Tilt left  |
-| Arrow Right | Tilt right |
+Start engine, then wait a few seconds before starting to move.
+
+| Button      | Action       |
+| ----------- | -----------  |
+| W           | Up           |
+| S           | Down         |
+| A           | Turn Left    |
+| D           | Turn Right   |
+| G           | Start Engine |
+| Arrow Up    | Forward      |
+| Arrow Down  | Backward     |
+| Arrow Left  | Tilt left    |
+| Arrow Right | Tilt right   |
 
 ## Credits 
 
