@@ -33,32 +33,42 @@ export default class Cargo {
 			}
 		});
 
-		this.scene.add(this.cargo);
+		this.particlesGeometry = new THREE.BufferGeometry();
+		this.count = 500;
 
-		if (this.debug.active) {
-			this.debugFolder = this.debug.ui.addFolder("cargo");
+		this.positions = new Float32Array(this.count * 3); // Multiply by 3 because each position is composed of 3 values (x, y, z)
 
-			this.debugFolder
-				.add(this.cargo.position, "x")
-				.name("x")
-				.min(-100)
-				.max(100)
-				.step(0.1);
-
-			this.debugFolder
-				.add(this.cargo.position, "y")
-				.name("y")
-				.min(-100)
-				.max(100)
-				.step(0.1);
-
-			this.debugFolder
-				.add(this.cargo.position, "z")
-				.name("z")
-				.min(-100)
-				.max(100)
-				.step(0.1);
+		for (
+			let i = 0;
+			i < this.count * 3;
+			i++ // Multiply by 3 for same reason
+		) {
+			this.positions[i] = (Math.random() - 0.5) * 10; // Math.random() - 0.5 to have a random value between -0.5 and +0.5
 		}
+
+		this.textureLoader = new THREE.TextureLoader();
+		this.partcileTexture = this.textureLoader.load("/textures/4.png");
+		this.particlesMaterial = new THREE.PointsMaterial({
+			size: 0.08,
+			sizeAttenuation: true,
+			color: "#ff88cc",
+			transparent: true,
+			alphaMap: this.partcileTexture,
+			alphaTest: 0.001,
+			depthWrite: true,
+			blending: THREE.AdditiveBlending,
+			vertexColors: true,
+		});
+		this.particlesGeometry.setAttribute(
+			"position",
+			new THREE.BufferAttribute(this.positions, 3),
+		);
+		this.particles = new THREE.Points(
+			this.particlesGeometry,
+			this.particlesMaterial,
+		);
+		this.scene.add(this.particles);
+		this.scene.add(this.cargo);
 	}
 
 	update() {
