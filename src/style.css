@@ -124,21 +124,6 @@ canvas {
     z-index: 9999999999;
 }
 
-.github-corner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translate(-50%, -50%) rotate(-45deg);
-    width: 150px;
-    z-index: 9999999999;
-}
-
-.github-corner a {
-    color: #000000;
-    cursor: pointer;
-}
-
-
 .controls-corner {
     color: white;
     font-size: 14px;
@@ -149,7 +134,6 @@ canvas {
     z-index: 999;
     pointer-events: none;
 }
-
 
 .controls-corner h3 {
     text-shadow:1px 1px 1px #000, 0px 1px 3px #000;

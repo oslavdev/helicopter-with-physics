@@ -4,12 +4,19 @@ import * as THREE from "three";
 import CannonDebugger from "cannon-es-debugger";
 import Controls from "../controls.js";
 import Experience from "../index.js";
+import Universe from "./universe.js";
 
 const STATIC_ROTOR_2 = "static_rotor2_Mat_maverick012_ec135bmp_0";
 const STATIC_ROTOR = "static_rotor_Mat_maverick011_ec1351bmp_0";
 
 export default class Helicopter {
 	constructor() {
+		this.state = {
+			health: 100,
+			score: 0,
+			deaths: 0,
+		};
+
 		this.engineStarted = false;
 
 		// Physical control
@@ -26,6 +33,7 @@ export default class Helicopter {
 		// Model settings
 		this.rotors = {};
 		this.experience = new Experience();
+		this.universe = new Universe();
 		this.scene = this.experience.scene;
 		this.resources = this.experience.resources;
 		this.time = this.experience.time;
@@ -49,9 +57,47 @@ export default class Helicopter {
 		}
 
 		this.controls = new Controls();
+		this.hitSound = new Audio("/sounds/hit.mp3");
 
 		this.onCreate();
 	}
+
+	// updateScore(score){
+	// 	this.state.score = this.state.score + score;
+	// }
+
+	// onDeath(){
+	// 	this.state.deaths = this.state.deaths + 1;
+	// }
+
+	onDamageTaken(damage) {
+		this.calculatedDamage = damage;
+		this.state.health = this.state.health - this.calculatedDamage;
+
+		console.log("[DAMAGE]: Damage taken", this.calculatedDamage);
+		console.log(this.state);
+	}
+
+	onCollide = (collision) => {
+		this.impactStrength = collision.contact.getImpactVelocityAlongNormal();
+
+		if (this.hitSound && this.impactStrength > 1.7) {
+			// Hit Sound
+			this.hitSound.volume = Math.random();
+			this.hitSound.currentTime = 0;
+			this.hitSound.play();
+
+			// Calculate damage
+			this.onDamageTaken(this.impactStrength);
+
+			this.experience.renderer.glitchPass.goWild = false;
+			this.experience.renderer.glitchPass.enabled = true;
+
+			setTimeout(() => {
+				this.experience.renderer.glitchPass.enabled = false;
+			}, 1000);
+		}
+	};
 
 	onCreate() {
 		this.vehicle = this.resource.scene;
@@ -87,6 +133,8 @@ export default class Helicopter {
 		this.vehiclePhysicalBody.position.y = this.vehicle.position.y;
 		this.vehiclePhysicalBody.position.z = this.vehicle.position.z;
 		this.vehiclePhysicalBody.angularDamping = 0.9; //so it doesn't pendulum so much
+
+		this.vehiclePhysicalBody.addEventListener("collide", this.onCollide);
 
 		this.world.addBody(this.vehiclePhysicalBody);
 
