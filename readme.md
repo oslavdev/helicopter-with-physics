@@ -6,7 +6,7 @@ Developed with Three.js and Cannon.js.
 
 <div style="width:350px">
 
-![Preview](readme/helicopter.png?raw=true 'Cover')
+![Animated](readme/video.gif?raw=true 'Animated')
 </div>
 
 ## Setup
