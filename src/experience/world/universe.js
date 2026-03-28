@@ -1,31 +1,47 @@
-import Cargo from "./cargo.js";
+import Cargo       from "./cargo.js";
 import Environment from "./environment.js";
-import Experience from "../index.js";
-import Floor from "./floor.js";
-import Platform from "./platform.js";
-import Vehicle from "./vehicle.js";
+import Experience  from "../index.js";
+import Floor       from "./floor.js";
+import Platform    from "./platform.js";
+import Vehicle     from "./vehicle.js";
 
 export default class Universe {
-	constructor() {
-		this.experience = new Experience();
-		this.scene = this.experience.scene;
-		this.resources = this.experience.resources;
-		this.environment = null;
+    constructor() {
+        const exp      = new Experience();
+        this.scene     = exp.scene;
+        this.resources = exp.resources;
 
-		// Wait for resources
-		this.resources.on("ready", () => {
-			this.floor = new Floor();
-			this.environment = new Environment();
-			this.platform = new Platform();
+        this.floor       = null;
+        this.environment = null;
+        this.platform    = null;
+        this.vehicle     = null;
+        this.cargos      = [];
 
-			this.vehicle = new Vehicle();
-			this.cargo = new Cargo();
-		});
-	}
+        this.resources.on("ready", () => this._onReady());
+    }
 
-	update() {
-		if (this.vehicle) this.vehicle.update();
-		if (this.environment) this.environment.update();
-		if (this.cargo) this.cargo.update();
-	}
+    _onReady() {
+        this.floor       = new Floor();
+        this.platform    = new Platform();
+        this.environment = new Environment();
+        // Vehicle must come after floor — it reads floor.body.position in its constructor
+        this.vehicle     = new Vehicle();
+    }
+
+    /**
+     * Replace all cargos with a fresh set of `count` items.
+     * Called by index.js when a new level starts.
+     */
+    spawnCargos(count) {
+        for (const c of this.cargos) c.destroy();
+        this.cargos = Array.from({ length: count }, (_, i) => new Cargo(i));
+    }
+
+    update() {
+        const elapsed = new Experience().time?.elapsed * 0.001 ?? 0;
+
+        if (this.vehicle)     this.vehicle.update(this.cargos);
+        if (this.environment) this.environment.update();
+        for (const cargo of this.cargos) cargo.update(elapsed);
+    }
 }

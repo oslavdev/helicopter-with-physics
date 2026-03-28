@@ -1,41 +1,38 @@
-import Experience from ".";
+import Experience from "./index.js";
+
+// LevelManager's sole job: bootstrap the Three.js experience for a given map/mode.
+// Game progression (score, timer, cargo) lives in GameManager.
 
 const MAPS = {
-	OIL_PLATFORM: "oil-platform",
-	SNOW_FOREST: "snow-forest",
+    OIL_PLATFORM: "oil-platform",
+    SNOW_FOREST:  "snow-forest",
 };
 
 const MODES = {
-	FREESTYLE: "freestyle",
-	SINGLE: "single",
-	MULTIPLYAER: "multiplayer",
+    FREESTYLE:   "freestyle",
+    SINGLE:      "single",
+    MULTIPLAYER: "multiplayer", // fixed typo: MULTIPLYAER → MULTIPLAYER
 };
 
 export default class LevelManager {
-	constructor() {
-		this.map = "";
-		this.mode = "";
-		this.score = 0;
-	}
+    constructor() {
+        this.map  = "";
+        this.mode = "";
+    }
 
-	onCreateLevel(mode, map) {
-		if (!MODES[mode]) {
-			throw new Error("The given mode does not exist!");
-		}
+    onCreateLevel(mode, map) {
+        if (!MODES[mode]) throw new Error(`Unknown mode: "${mode}"`);
+        if (!MAPS[map])   throw new Error(`Unknown map: "${map}"`);
 
-		if (!MAPS[map]) {
-			throw new Error("The given map does not exist!");
-		}
+        this.map  = MAPS[map];
+        this.mode = MODES[mode];
 
-		this.map = MAPS[map];
-		this.mode = MODES[mode];
+        // Instantiates the singleton; safe to call multiple times
+        new Experience(document.querySelector("canvas.webgl"));
+    }
 
-		// TODO: Load differen maps in different modes
-		const experience = new Experience(document.querySelector("canvas.webgl"));
-	}
-
-	onDestoryLevel() {
-		this.map = "";
-		this.mode = "";
-	}
+    onDestroyLevel() { // fixed typo: onDestoryLevel → onDestroyLevel
+        this.map  = "";
+        this.mode = "";
+    }
 }
