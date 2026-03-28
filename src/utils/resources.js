@@ -1,74 +1,71 @@
 import * as THREE from "three";
-
-import EventEmitter from "./event-emitter.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { gsap } from "gsap";
-
-const loadingManager = new THREE.LoadingManager(
-	// Loaded
-	() => {
-		const loadingBarElement = document.querySelector(".loading-bar");
-
-		loadingBarElement.classList.add("ended");
-		loadingBarElement.style.transform = "";
-		document.getElementById("ui").classList.remove("hidden");
-	},
-
-	// Progress
-	(_, itemsLoaded, itemsTotal) => {
-		const progressRatio = itemsLoaded / itemsTotal;
-		document.querySelector(
-			".loading-bar",
-		).style.transform = `scaleX(${progressRatio})`;
-	},
-);
+import EventEmitter from "./event-emitter.js";
 
 export default class Resources extends EventEmitter {
-	constructor(sources) {
-		super();
+    constructor(sources) {
+        super();
 
-		this.sources = sources;
-		this.items = {};
-		this.toLoad = this.sources.length;
-		this.loaded = 0;
+        this.sources = sources;
+        this.items   = {};
+        this.toLoad  = sources.length;
+        this.loaded  = 0;
 
-		this.setLoaders();
-		this.startLoading();
-	}
+        this._setupLoaders();
+        this._startLoading();
+    }
 
-	setLoaders() {
-		this.loaders = {};
-		this.loaders.gltfLoader = new GLTFLoader(loadingManager);
-		this.loaders.textureLoader = new THREE.TextureLoader();
-		this.loaders.cubeTextureLoader = new THREE.CubeTextureLoader();
-	}
+    _setupLoaders() {
+        const manager = new THREE.LoadingManager(
+            // All loaded
+            () => {
+                const bar = document.querySelector(".loading-bar");
+                if (bar) {
+                    bar.classList.add("ended");
+                    bar.style.transform = "";
+                }
+                // Resources ready — universe._onReady will fire via trigger("ready")
+                this.trigger("ready");
+            },
+            // Progress
+            (_url, loaded, total) => {
+                const bar = document.querySelector(".loading-bar");
+                if (bar) bar.style.transform = `scaleX(${loaded / total})`;
+            },
+            // Error
+            (url) => {
+                console.error(`[Resources] Failed to load: ${url}`);
+            }
+        );
 
-	startLoading() {
-		// Load each source
-		for (const source of this.sources) {
-			if (source.type === "gltfModel") {
-				this.loaders.gltfLoader.load(source.path, (file) => {
-					this.sourceLoaded(source, file);
-				});
-			} else if (source.type === "texture") {
-				this.loaders.textureLoader.load(source.path, (file) => {
-					this.sourceLoaded(source, file);
-				});
-			} else if (source.type === "cubeTexture") {
-				this.loaders.cubeTextureLoader.load(source.path, (file) => {
-					this.sourceLoaded(source, file);
-				});
-			}
-		}
-	}
+        this.loaders = {
+            gltf:    new GLTFLoader(manager),
+            texture: new THREE.TextureLoader(manager),
+            cube:    new THREE.CubeTextureLoader(manager),
+        };
+    }
 
-	sourceLoaded(source, file) {
-		this.items[source.name] = file;
+    _startLoading() {
+        const LOADERS = {
+            gltfModel:   (src) => this.loaders.gltf.load(src.path,    (f) => this._onLoaded(src, f)),
+            texture:     (src) => this.loaders.texture.load(src.path, (f) => this._onLoaded(src, f)),
+            cubeTexture: (src) => this.loaders.cube.load(src.path,    (f) => this._onLoaded(src, f)),
+        };
 
-		this.loaded++;
+        for (const source of this.sources) {
+            const loader = LOADERS[source.type];
+            if (loader) {
+                loader(source);
+            } else {
+                console.warn(`[Resources] Unknown source type: "${source.type}"`);
+                this.toLoad--;
+            }
+        }
+    }
 
-		if (this.loaded === this.toLoad) {
-			this.trigger("ready");
-		}
-	}
+    _onLoaded(source, file) {
+        this.items[source.name] = file;
+        this.loaded++;
+        if (this.loaded === this.toLoad) this.trigger("ready");
+    }
 }

@@ -1,30 +1,25 @@
 import EventEmitter from "./event-emitter.js";
 
 export default class Time extends EventEmitter {
-	constructor() {
-		super();
+    constructor() {
+        super();
 
-		// Setup
-		this.start = Date.now();
-		this.current = this.start;
-		this.elapsed = 0;
-		this.delta = 16;
+        this.start   = performance.now(); // higher resolution than Date.now()
+        this.current = this.start;
+        this.elapsed = 0;
+        this.delta   = 16;
 
-		window.requestAnimationFrame(() => {
-			this.tick();
-		});
-	}
+        // Kick off the loop on the next frame so listeners can be registered first
+        requestAnimationFrame(() => this._tick());
+    }
 
-	tick() {
-		const currentTime = Date.now();
-		this.delta = currentTime - this.current;
-		this.current = currentTime;
-		this.elapsed = this.current - this.start;
+    _tick() {
+        const now    = performance.now();
+        this.delta   = now - this.current;
+        this.current = now;
+        this.elapsed = now - this.start;
 
-		this.trigger("tick");
-
-		window.requestAnimationFrame(() => {
-			this.tick();
-		});
-	}
+        this.trigger("tick");
+        requestAnimationFrame(() => this._tick());
+    }
 }

@@ -3,66 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Collect Lost Cargo</title>
-    <meta name="description" content="Three.js game with Cannon.js physics with multiplayer. Collect lost cargo in the ocean.">
-    <meta name="keywords" content="Three.js, Cannon.js, WebGl, JavaScript, Deno, WebSocket">
-    <meta name="author" content="Oslav">
+    <title>DROPZONE — Helicopter Extraction</title>
 </head>
 <body>
+    <!-- MAIN MENU -->
     <main id="main" class="main">
-        <div class="container">
-            <h1>H-Cargo</h1>
-            <nav>
-                <ul class='list'>
-                    <li class='list-element'>
-                       <div id='freestyle-run' class='list-element__button'>Freestyle</div>
-                    </li>
-                    <li class='list-element'>
-                        <div id='single-run' class='list-element__button list-element__button--inactive'>Single player</div>
-                     </li>
-                     <li class='list-element'>
-                        <div id='multy-run' class='list-element__button list-element__button--inactive'>Multiplayer</div>
-                     </li>
-                </ul>
-            </nav>
+        <canvas id="menu-canvas"></canvas>
+        <div class="menu-overlay">
+            <div class="menu-content">
+                <div class="game-title">
+                    <span class="title-cargo">DROPZONE</span>
+                    <div class="title-sub">Helicopter Extraction</div>
+                </div>
+                <div class="menu-buttons">
+                    <button id="start-game" class="btn-start">
+                        <span class="btn-icon">▶</span> Deploy
+                    </button>
+                    <div class="controls-hint">
+                        <span>W/S</span> Altitude &nbsp;
+                        <span>A/D</span> Turn &nbsp;
+                        <span>↑↓←→</span> Fly &nbsp;
+                        <span>G</span> Engine &nbsp;
+                        <span>E</span> Extract
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
-    <div id="ui" class='ui-container hidden'>
-        <div class='status-container'>
-            <div class="health-bar">
 
+    <!-- TUTORIAL OVERLAY -->
+    <div id="tutorial" class="tutorial hidden">
+        <div class="tutorial-inner">
+            <span class="tutorial-icon">🚁</span>
+            <h2 class="tutorial-title">Mission Briefing</h2>
+            <div class="tutorial-body">
+                <p>Cargo crates have gone overboard and are <strong>drifting in hostile waters</strong>.</p>
+                <p>Extract them all and return to the platform before the clock runs out.</p>
             </div>
-            <p>
-                Health: 100%
-            </p>
+            <div class="tutorial-steps">
+                <div class="tut-step">
+                    <span class="tut-num">1</span>
+                    <span>Press <kbd>G</kbd> to ignite the engine — wait for full rotor speed</span>
+                </div>
+                <div class="tut-step">
+                    <span class="tut-num">2</span>
+                    <span>Use <kbd>W</kbd> to gain altitude, <kbd>↑↓←→</kbd> to fly and tilt</span>
+                </div>
+                <div class="tut-step">
+                    <span class="tut-num">3</span>
+                    <span>Fly close to a <strong>glowing crate</strong> — press <kbd>E</kbd> to hook it</span>
+                </div>
+                <div class="tut-step">
+                    <span class="tut-num">4</span>
+                    <span>Airlift it back to the <strong>yellow extraction ring</strong> on the platform</span>
+                </div>
+                <div class="tut-step">
+                    <span class="tut-num">5</span>
+                    <span>Extract all crates before time expires — <strong>5 missions await</strong></span>
+                </div>
+            </div>
+            <button id="tutorial-start" class="btn-start">Initiating Deployment ▶</button>
         </div>
-    <div class="controls-corner">
-        <h3>Controls</h3>
-        <div class="control-row">
-            <div class="control-el">W</div>
-            <div class="control-el">A</div>
-            <div class="control-el">S</div>
-            <div class="control-el">D</div>
-            <div class="control-des">Movement</div>
-        </div>
-        <div class="control-row">
-            <div class="control-el">↑</div>
-            <div class="control-el">←</div>
-            <div class="control-el">→</div>
-            <div class="control-el">↓</div>
-            <div class="control-des">Movement</div>
-        </div>
-        <div class="control-row">
-            <div class="control-el">G</div>
-            <div class="control-des">Start Engine</div>
-        </div>
-        <div class="control-row">
-            <div class="control-el">H</div>
-            <div class="control-des">Hide Help</div>
-        </div>    
     </div>
+
+    <!-- GAME UI -->
+    <div id="ui" class='ui-container hidden'>
+        <div class="hud-top">
+            <div class="hud-block">
+                <div class="hud-label">Score</div>
+                <div class="hud-value" id="hud-score">0</div>
+            </div>
+            <div class="hud-block hud-center">
+                <div class="hud-label">Mission <span id="hud-level">1</span></div>
+                <div class="hud-label">Cargo <span id="hud-cargo">0/0</span></div>
+            </div>
+            <div class="hud-block hud-right">
+                <div class="hud-label">Countdown</div>
+                <div class="hud-value" id="hud-timer">3:00</div>
+            </div>
+        </div>
+
+        <div id="pickup-hint" class="pickup-hint hidden">▸ Press <kbd>E</kbd> to extract cargo</div>
+        <div id="deliver-hint" class="deliver-hint hidden">▸ Return to extraction point</div>
+        <div id="level-banner" class="level-banner hidden"></div>
+
+        <div class="controls-corner">
+            <h3>Field Controls</h3>
+            <div class="control-row"><div class="control-el">W</div><div class="control-el">S</div><div class="control-des">Altitude</div></div>
+            <div class="control-row"><div class="control-el">A</div><div class="control-el">D</div><div class="control-des">Rotate</div></div>
+            <div class="control-row"><div class="control-el">↑</div><div class="control-el">↓</div><div class="control-el">←</div><div class="control-el">→</div><div class="control-des">Fly</div></div>
+            <div class="control-row"><div class="control-el">G</div><div class="control-des">Engine</div></div>
+            <div class="control-row"><div class="control-el">E</div><div class="control-des">Extract Cargo</div></div>
+        </div>
     </div>
-    <div id='loading-bar' class='loading-bar hidden'></div>
+
+    <!-- END SCREEN -->
+    <div id="end-screen" class="end-screen hidden">
+        <div class="end-inner">
+            <div class="end-title" id="end-title"></div>
+            <div class="end-score" id="end-score"></div>
+            <div class="end-credits" id="end-credits"></div>
+            <button id="end-next" class="btn-start" style="margin-top:32px" onclick="location.reload()">Redeploy</button>
+        </div>
+    </div>
+
+    <!-- CREDITS ROLL -->
+    <div id="credits-roll" class="credits-roll hidden">
+        <div class="credits-content">
+            <div class="credits-logo">DROPZONE</div>
+            <div class="credits-line big">All Cargo Extracted.</div>
+            <div class="credits-line big">Mission Accomplished.</div>
+            <div class="credits-line" style="margin-top:40px">Final Score: <span id="credits-final-score" style="color:var(--orange);font-family:var(--font-hud)">0</span></div>
+            <div class="credits-line" style="margin-top:56px;font-size:0.8em;opacity:0.5">Built with Three.js + Cannon.js</div>
+            <div class="credits-line" style="font-size:0.7em;opacity:0.4;margin-top:6px">Helicopter v2 · Aditya Graphical &nbsp;|&nbsp; Cargo Crate · boysichterman &nbsp;|&nbsp; Oil Platform Troll A · Arkikon</div>
+            <div class="credits-line" style="margin-top:56px;font-size:0.9em">— Good flying, pilot. —</div>
+        </div>
+        <button class="btn-start" style="position:fixed;bottom:40px;left:50%;transform:translateX(-50%)" onclick="location.reload()">Redeploy</button>
+    </div>
+
+    <!-- LOADING SCREEN -->
+    <div id='loading-screen' class='loading-screen hidden'>
+        <div class="loading-logo">DROP<span>ZONE</span></div>
+        <div class="loading-label">Establishing Uplink…</div>
+        <div class="loading-bar-wrap">
+            <div id='loading-bar' class='loading-bar hidden'></div>
+        </div>
+    </div>
+
     <canvas id='webgl' class="webgl hidden"></canvas>
+
+<script>
+(function(){
+    const canvas = document.getElementById('menu-canvas');
+    const gl = canvas.getContext('webgl');
+    if(!gl) return;
+    function resize(){
+        canvas.width=window.innerWidth;
+        canvas.height=window.innerHeight;
+        gl.viewport(0,0,canvas.width,canvas.height);
+    }
+    window.addEventListener('resize',resize);
+    resize();
+    const vs=`attribute vec2 p;void main(){gl_Position=vec4(p,0,1);}`;
+    const fs=`precision highp float;
+uniform float T;uniform vec2 R;
+float hash(vec2 p){p=fract(p*vec2(127.1,311.7));p+=dot(p,p+45.32);return fract(p.x*p.y);}
+float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);float a=hash(i),b=hash(i+vec2(1,0)),c=hash(i+vec2(0,1)),d=hash(i+vec2(1,1));return mix(mix(a,b,f.x),mix(c,d,f.x),f.y);}
+float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<6;i++){v+=a*n(p);p=p*2.1+vec2(1.7,9.2);a*=.5;}return v;}
+void main(){
+    vec2 uv=gl_FragCoord.xy/R;
+    float asp=R.x/R.y;
+    vec3 skyT=vec3(.10,.38,.82),skyM=vec3(.42,.70,.96),skyH=vec3(.82,.92,1.);
+    float h=uv.y;
+    vec3 sky=mix(skyH,mix(skyM,skyT,h*h),smoothstep(0.,.35,h));
+    vec2 sunP=vec2(.78,.82);
+    float sd=length(uv-sunP);
+    sky+=vec3(1.,.95,.7)*pow(.07/(sd+.01),1.4)*.6;
+    float sp=.18+(1.-uv.y)*.4;
+    vec2 fly=vec2(uv.x*asp,uv.y+T*sp*.3);
+    float c1=fbm(fly*2.5+vec2(T*.04,0.));
+    float c2=fbm(fly*4.2+vec2(T*.07,3.1));
+    float c3=fbm(fly*1.1+vec2(T*.02,7.5));
+    float cm=clamp(smoothstep(.48,.72,c1)+smoothstep(.52,.74,c2)*.6+smoothstep(.44,.66,c3)*.3,0.,1.);
+    cm*=smoothstep(.12,.45,uv.y)*(1.-smoothstep(.75,1.,uv.y));
+    vec3 cc=mix(vec3(.72,.78,.92),vec3(1.),smoothstep(.45,.72,c1));
+    cc=mix(cc,skyH,(1.-smoothstep(.3,.9,uv.y))*.5);
+    float st=fbm(vec2(uv.x*6.,uv.y*1.5+T*.5));
+    sky+=vec3(1.)*smoothstep(.55,.72,st)*cm*.25;
+    vec3 col=mix(sky,cc,cm*.88);
+    float vig=uv.x*(1.-uv.x)*uv.y*(1.-uv.y)*10.;
+    col*=.82+.18*vig;
+    gl_FragColor=vec4(col,1.);
+}`;
+    function sh(t,s){const x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);return x;}
+    const prog=gl.createProgram();
+    gl.attachShader(prog,sh(gl.VERTEX_SHADER,vs));
+    gl.attachShader(prog,sh(gl.FRAGMENT_SHADER,fs));
+    gl.linkProgram(prog);gl.useProgram(prog);
+    const buf=gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+    gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+    const ap=gl.getAttribLocation(prog,'p');
+    gl.enableVertexAttribArray(ap);
+    gl.vertexAttribPointer(ap,2,gl.FLOAT,false,0,0);
+    const uT=gl.getUniformLocation(prog,'T'),uR=gl.getUniformLocation(prog,'R');
+    const t0=performance.now();
+    function draw(){
+        if(document.getElementById('main').classList.contains('hidden'))return;
+        gl.uniform1f(uT,(performance.now()-t0)*.001);
+        gl.uniform2f(uR,canvas.width,canvas.height);
+        gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+        requestAnimationFrame(draw);
+    }
+    draw();
+})();
+</script>
 </body>
 </html>

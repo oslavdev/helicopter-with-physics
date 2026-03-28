@@ -10,6 +10,7 @@ export default class Controls {
 			ArrowLeft: false,
 			ArrowRight: false,
 			g: false,
+		e: false,
 		};
 	}
 
